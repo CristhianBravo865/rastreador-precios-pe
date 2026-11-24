@@ -1,0 +1,24 @@
+[project]
+name = "rastreador"
+version = "0.1.0"
+description = "Rastreador de precios por URL para tiendas online de Perú, con historial y salud de adaptadores."
+authors = [{ name = "Cristhian Bravo" }]
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.14.4",
+    "pyyaml>=6.0.4",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.9,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
