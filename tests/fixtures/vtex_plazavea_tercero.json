@@ -1,0 +1,48 @@
+[
+ {
+  "productId": "102067258",
+  "productName": "Xiaomi Poco X8 Pro 512gb 12gb Black",
+  "brand": "XIAOMI",
+  "linkText": "xiaomi-poco-x8-pro-512gb-12gb-black-102067258",
+  "link": "https://www.plazavea.com.pe/xiaomi-poco-x8-pro-512gb-12gb-black-102067258/p",
+  "Color": [
+   "Negro"
+  ],
+  "Memoria Interna": [
+   "512GB"
+  ],
+  "Memoria RAM": [
+   "12GB"
+  ],
+  "items": [
+   {
+    "itemId": "12397348",
+    "name": "Xiaomi Poco X8 Pro 512gb 12gb Black",
+    "sellers": [
+     {
+      "sellerId": "Telcelperu",
+      "sellerName": "Telcelperu",
+      "commertialOffer": {
+       "IsAvailable": true,
+       "AvailableQuantity": 5,
+       "ListPrice": 2299.0,
+       "Price": 1699.0,
+       "PriceWithoutDiscount": 1749.0
+      }
+     },
+     {
+      "sellerId": "1",
+      "sellerName": "Plaza Vea",
+      "commertialOffer": {
+       "IsAvailable": false,
+       "AvailableQuantity": 0,
+       "ListPrice": 0.0,
+       "Price": 0.0,
+       "PriceWithoutDiscount": 0.0
+      }
+     }
+    ]
+   }
+  ]
+ }
+]

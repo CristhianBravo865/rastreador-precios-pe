@@ -1,0 +1,32 @@
+name: Prueba de acceso a tiendas (hito 0)
+
+# ¿Las tiendas responden a una IP de datacenter (la de GitHub Actions)?
+# El resultado decide si el cron diario puede correr aquí o necesita un
+# runner en una IP residencial. Ver docs/decisions/000-donde-corre-el-cron.md.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "src/rastreador/probe.py"
+      - "src/rastreador/adapters/**"
+      - "src/rastreador/http.py"
+      - "config/probe_urls.txt"
+      - ".github/workflows/probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - name: Instalar dependencias
+        run: uv sync --frozen
+      - name: IP pública del runner
+        run: curl -s https://api.ipify.org && echo
+      - name: Probar tiendas
+        run: uv run python -m rastreador.probe config/probe_urls.txt

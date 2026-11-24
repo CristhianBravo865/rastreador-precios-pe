@@ -1,0 +1,46 @@
+# Productos vigilados. Lo mantiene `rastreador add <url>`.
+# Cada producto agrupa la MISMA variante (mismo modelo, capacidad, color...)
+# en distintas tiendas. Cada oferta fija un SKU exacto: nunca se busca por texto.
+products:
+- id: poco-x8-pro-12-gb-512-gb-negro
+  name: POCO X8 Pro 12 GB + 512 GB Negro
+  offers:
+  - store: falabella
+    url: https://www.falabella.com.pe/falabella-pe/product/152322333/poco-x8-pro-negro-12gb-512gb
+    sku_id: '152322334'
+    added_at: '2026-11-24'
+    expected:
+      title: POCO X8 Pro Negro 12GB + 512GB.
+      attributes:
+        Color: Negro
+        Tamaño: 512 GB
+  - store: plazavea
+    url: https://www.plazavea.com.pe/xiaomi-poco-x8-pro-512gb-12gb-black-102067258/p
+    sku_id: '12397348'
+    added_at: '2026-11-24'
+    expected:
+      title: Xiaomi Poco X8 Pro 512gb 12gb Black
+      attributes:
+        Color: Negro
+        Memoria RAM: 12GB
+        Memoria Interna: 512GB
+  - store: promart
+    url: https://www.promart.pe/xiaomi-poco-x8-pro-512gb-12gb-black-1001463828/p
+    sku_id: '1001720162'
+    added_at: '2026-11-24'
+    expected:
+      title: Xiaomi Poco X8 Pro 512gb 12gb Black
+      attributes:
+        Color: Negro
+        Memoria RAM: 12GB
+        Memoria interna: 512GB
+  - store: oechsle
+    url: https://www.oechsle.pe/poco-x8-pro-negro-12gb-ram-512gb-almacenamiento---potente-y-rapido-1001700930/p
+    sku_id: '1001704875'
+    added_at: '2026-11-24'
+    expected:
+      title: POCO X8 Pro Negro 12GB RAM 512GB Almacenamiento - Potente y Rápido
+      attributes:
+        Color: Negro
+        Memoria RAM: 12GB
+        Memoria interna: 512GB

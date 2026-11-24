@@ -1,0 +1,8 @@
+# Una URL de producto por tienda, para la prueba de acceso (hito 0).
+# Los productos son solo de ejemplo: lo que se prueba es la tienda, no el producto.
+https://www.falabella.com.pe/falabella-pe/product/152322333/poco-x8-pro-negro-12gb-512gb
+https://www.oechsle.pe/poco-x8-pro-5g-8ram-256gb-verde-1001959028/p
+https://www.plazavea.com.pe/xiaomi-poco-x8-pro-512gb-12gb-black-102067258/p
+https://www.promart.pe/xiaomi-poco-x8-pro-512gb-12gb-black-1001463828/p
+https://www.coolbox.pe/celular-xiaomi-poco-x8-pro-max-5g-512gb-12gb-ram-negro-ps59454438/p
+https://www.estilos.com.pe/xiaomi-poco-x8-pro-512gb-8gb-negro-ps35960113317814/p
