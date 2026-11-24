@@ -2,7 +2,7 @@
 
 Rastreador de precios para tiendas online de Perú. **Pegas la URL de un producto** (de cualquier categoría) y el sistema revisa su precio a diario, guarda el historial y avisa cuando baja o cuando una tienda deja de responder.
 
-> Estado: **hito 3, corrida diaria**. Se agregan productos por URL y se revisan a diario. Todavía no hay dashboard ni alertas.
+> Estado: **hito 4, dashboard**. Se agregan productos por URL, se revisan a diario y se publican en un dashboard estático. Todavía no hay alertas.
 
 ## Por qué por URL y no un buscador
 
@@ -58,6 +58,12 @@ Cada corrida agrega:
 - `data/health/<tienda>.jsonl`: una línea por corrida con el estado `ok`, `degraded` o `down` y los errores tipados. Una tienda caída queda registrada como dato, no como un hueco.
 
 Cada tienda escribe en su propio archivo, así que Actions y la PC pueden subir datos al mismo tiempo sin conflictos.
+
+## Dashboard
+
+Sitio estático en GitHub Pages, regenerado después de cada revisión. Muestra el estado de cada tienda, la mejor oferta actual de cada producto (solo las ofertas frescas, disponibles y de la variante correcta), el descuento anunciado frente al descuento contra la mediana propia de 30 días, y el historial por tienda.
+
+Todo el cálculo está en Python y el frontend solo dibuja un contrato JSON versionado. Para cambiar el diseño se toca `web/`, sin tocar Python. Cómo trabajar en él, con datos de ejemplo: [docs/DASHBOARD.md](docs/DASHBOARD.md). Por qué está hecho así: [ADR-002](docs/decisions/002-dashboard-contrato-json.md).
 
 ## Desarrollo
 

@@ -77,6 +77,17 @@ def append_health(health: StoreHealth, data_dir: Path = DATA_DIR) -> None:
     _append(data_dir / "health" / f"{health.store}.jsonl", [health.model_dump_json()])
 
 
+def read_health(data_dir: Path = DATA_DIR) -> dict[str, list[StoreHealth]]:
+    out: dict[str, list[StoreHealth]] = {}
+    for path in sorted((data_dir / "health").glob("*.jsonl")):
+        out[path.stem] = [
+            StoreHealth.model_validate_json(line)
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    return out
+
+
 def read_records(data_dir: Path = DATA_DIR) -> list[Record]:
     records = []
     for path in sorted((data_dir / "observations").glob("*/*.jsonl")):
