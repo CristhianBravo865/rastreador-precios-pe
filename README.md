@@ -2,7 +2,7 @@
 
 Rastreador de precios para tiendas online de Perú. **Pegas la URL de un producto** (de cualquier categoría) y el sistema revisa su precio a diario, guarda el historial y avisa cuando baja o cuando una tienda deja de responder.
 
-> Estado: **hito 0**, prueba de acceso desde GitHub Actions. Todavía no hay corrida diaria ni dashboard.
+> Estado: **hito 0 terminado**. Las tiendas VTEX responden desde GitHub Actions; Falabella bloquea las IP de datacenter y se revisará desde una PC con IP residencial ([ADR-000](docs/decisions/000-donde-corre-el-cron.md)). Todavía no hay corrida diaria ni dashboard.
 
 ## Por qué por URL y no un buscador
 
@@ -10,14 +10,14 @@ Un buscador tendría que emparejar el mismo producto entre tiendas que lo nombra
 
 ## Tiendas soportadas
 
-| Tienda | Cómo se leen los datos | Grupo de catálogo |
-|---|---|---|
-| Falabella | JSON `__NEXT_DATA__` de la página de producto | falabella |
-| Oechsle | API pública de catálogo VTEX | oechsle |
-| Plaza Vea | API pública de catálogo VTEX | intercorp-marketplace |
-| Promart | API pública de catálogo VTEX | intercorp-marketplace |
-| Coolbox | API pública de catálogo VTEX | coolbox |
-| Estilos | API pública de catálogo VTEX | estilos |
+| Tienda | Cómo se leen los datos | Grupo de catálogo | Dónde corre |
+|---|---|---|---|
+| Falabella | JSON `__NEXT_DATA__` de la página de producto | falabella | PC local (bloquea datacenters) |
+| Oechsle | API pública de catálogo VTEX | oechsle | GitHub Actions |
+| Plaza Vea | API pública de catálogo VTEX | intercorp-marketplace | GitHub Actions |
+| Promart | API pública de catálogo VTEX | intercorp-marketplace | GitHub Actions |
+| Coolbox | API pública de catálogo VTEX | coolbox | GitHub Actions |
+| Estilos | API pública de catálogo VTEX | estilos | GitHub Actions |
 
 Plaza Vea y Promart comparten catálogo y a menudo las mismas ofertas, así que cuentan como una sola fuente al comparar. Lo que queda fuera y por qué está en [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
