@@ -1,11 +1,13 @@
 ﻿# Revisión diaria de las tiendas con `runner: local` (hoy, Falabella). Ver ADR-000.
 #
-# Trabaja en un clon aparte del repo (por defecto en %LOCALAPPDATA%), así nunca
+# Trabaja en un clon aparte del repo (por defecto en %USERPROFILE%\.rastreador-precios-pe),
+# no en %LOCALAPPDATA%: las apps empaquetadas (MSIX) ven una copia redirigida de
+# AppData, y la tarea programada no vería lo que instalen allí. Así nunca
 # toca tu copia de desarrollo ni sus cambios sin commit. La tarea programada que
 # crea install_task.ps1 ejecuta este script una vez al día.
 
 param(
-    [string]$BaseDir = (Join-Path $env:LOCALAPPDATA "rastreador-precios-pe"),
+    [string]$BaseDir = (Join-Path $env:USERPROFILE ".rastreador-precios-pe"),
     [string]$Repo = "https://github.com/CristhianBravo865/rastreador-precios-pe.git"
 )
 
