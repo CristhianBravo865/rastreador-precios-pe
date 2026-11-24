@@ -2,6 +2,7 @@
 
     rastreador add <url>     agrega un producto a vigilar a partir de su URL
     rastreador list          muestra los productos vigilados
+    rastreador run           revisa precios y los agrega al historial
 
 `add` es interactivo si la terminal lo permite. Todas sus preguntas tienen una
 opción equivalente (--sku, --product, --new, --name, --yes) para usarlo desde
@@ -20,6 +21,7 @@ from pathlib import Path
 from rastreador.adapters.base import AdapterError, fetch
 from rastreador.config import (
     PRODUCTS_FILE,
+    Runner,
     Expected,
     OfferConfig,
     ProductConfig,
@@ -30,6 +32,7 @@ from rastreador.config import (
 from rastreador.http import PoliteClient
 from rastreador.matching import Candidate, compare, rank, signature
 from rastreador.models import Observation
+from rastreador.run import run, summary_markdown, write_github_summary
 from rastreador.stores import store_for_url
 
 AUTO_MATCH_SCORE = 0.6
@@ -231,6 +234,11 @@ def main(argv: list[str] | None = None) -> int:
 
     sub.add_parser("list", help="mostrar los productos vigilados")
 
+    p_run = sub.add_parser("run", help="revisar precios y agregarlos al historial")
+    p_run.add_argument("--runner", choices=[r.value for r in Runner],
+                       help="solo las tiendas asignadas a este runner en config/stores.yaml")
+    p_run.add_argument("--store", action="append", dest="stores", help="solo esta tienda (repetible)")
+
     args = parser.parse_args(argv)
     try:
         if args.command == "add":
@@ -245,9 +253,18 @@ def main(argv: list[str] | None = None) -> int:
                 interactive=sys.stdin.isatty() and not args.yes,
                 config_path=args.config,
             )
+        elif args.command == "run":
+            results = run(
+                runner=Runner(args.runner) if args.runner else None,
+                only_stores=set(args.stores) if args.stores else None,
+                config_path=args.config,
+            )
+            report = summary_markdown(results)
+            print(report)
+            write_github_summary(report)
         else:
             list_products(args.config)
-    except (UsageError, AdapterError) as exc:
+    except (UsageError, AdapterError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
     return 0
