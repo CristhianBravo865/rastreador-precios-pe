@@ -36,13 +36,15 @@ STORES: tuple[Store, ...] = (
     Store("estilos", "Estilos", "www.estilos.com.pe", _vtex, "estilos"),
 )
 
-_BY_DOMAIN = {s.domain: s for s in STORES}
+def _bare(host: str) -> str:
+    return host.lower().removeprefix("www.")
+
+
+_BY_DOMAIN = {_bare(s.domain): s for s in STORES}
 
 
 def store_for_url(url: str) -> Store:
-    host = urlparse(url).netloc.lower()
-    if not host.startswith("www."):
-        host = "www." + host
+    host = _bare(urlparse(url).netloc)
     try:
         return _BY_DOMAIN[host]
     except KeyError:

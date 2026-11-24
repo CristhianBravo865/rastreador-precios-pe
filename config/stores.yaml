@@ -1,0 +1,9 @@
+# Dónde corre la revisión diaria de cada tienda (ver docs/decisions/000-donde-corre-el-cron.md).
+#   actions: cron de GitHub Actions (IP de datacenter)
+#   local:   tarea programada en una PC con IP residencial
+falabella: {runner: local}
+oechsle: {runner: actions}
+plazavea: {runner: actions}
+promart: {runner: actions}
+coolbox: {runner: actions}
+estilos: {runner: actions}
