@@ -2,7 +2,7 @@
 
 Rastreador de precios para tiendas online de Perú. **Pegas la URL de un producto** (de cualquier categoría) y el sistema revisa su precio a diario, guarda el historial y avisa cuando baja o cuando una tienda deja de responder.
 
-> Estado: **hito 1 terminado** (agregar productos por URL). Las tiendas VTEX responden desde GitHub Actions; Falabella bloquea las IP de datacenter y se revisará desde una PC con IP residencial ([ADR-000](docs/decisions/000-donde-corre-el-cron.md)). Todavía no hay corrida diaria ni dashboard.
+> Estado: **hito 3, corrida diaria**. Se agregan productos por URL y se revisan a diario. Todavía no hay dashboard ni alertas.
 
 ## Por qué por URL y no un buscador
 
@@ -42,6 +42,22 @@ uv run rastreador list
 ```
 
 Si el SKU no parece la misma variante, avisa antes de agruparlo (por ejemplo, `capacidades distintas: 256gb, 8gb vs 12gb, 512gb`). Sin terminal, usa `--product <id>`, `--new`, `--sku` o `--yes`. Los productos quedan en [`config/products.yaml`](config/products.yaml). Por qué funciona así: [ADR-001](docs/decisions/001-productos-por-url-y-emparejamiento.md).
+
+## Revisión diaria
+
+```bash
+uv run rastreador run --runner actions   # tiendas VTEX: lo hace el cron de GitHub Actions (daily.yml)
+uv run rastreador run --runner local     # Falabella: lo hace una tarea programada en una PC
+```
+
+Falabella bloquea las IP de datacenter, así que se revisa desde una PC con IP residencial ([ADR-000](docs/decisions/000-donde-corre-el-cron.md)). [`scripts/install_task.ps1`](scripts/install_task.ps1) crea la tarea programada de Windows, que ejecuta [`scripts/run_local.ps1`](scripts/run_local.ps1) en un clon aparte del repo y sube los datos. Si la PC está apagada a la hora programada, la revisión corre al encenderla.
+
+Cada corrida agrega:
+
+- `data/observations/<tienda>/AAAA-MM.jsonl`: una línea por oferta (precio, precio tachado, vendedor, stock y `identity_ok`). Si la tienda cambió el producto detrás del mismo SKU, la línea se guarda con `identity_ok: false` y los motivos.
+- `data/health/<tienda>.jsonl`: una línea por corrida con el estado `ok`, `degraded` o `down` y los errores tipados. Una tienda caída queda registrada como dato, no como un hueco.
+
+Cada tienda escribe en su propio archivo, así que Actions y la PC pueden subir datos al mismo tiempo sin conflictos.
 
 ## Desarrollo
 
