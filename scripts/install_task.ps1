@@ -7,7 +7,7 @@
 
 param(
     [string]$At = "07:00",
-    [string]$BaseDir = (Join-Path $env:LOCALAPPDATA "rastreador-precios-pe"),
+    [string]$BaseDir = (Join-Path $env:USERPROFILE ".rastreador-precios-pe"),
     [string]$Repo = "https://github.com/CristhianBravo865/rastreador-precios-pe.git"
 )
 
