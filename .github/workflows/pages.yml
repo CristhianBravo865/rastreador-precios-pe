@@ -1,0 +1,55 @@
+name: Publicar dashboard
+
+# Genera site/ con `rastreador build-site` y lo publica en GitHub Pages.
+#
+# Disparadores:
+# - push a main: cambios de código o de configuración, y datos subidos desde la PC
+#   (Falabella).
+# - workflow_run: al terminar la revisión diaria de Actions. Hace falta porque los
+#   commits de datos que hace GITHUB_TOKEN no disparan el evento push.
+
+on:
+  push:
+    branches: [main]
+    paths: ["data/**", "config/**", "src/**", "web/**", ".github/workflows/pages.yml"]
+  workflow_run:
+    workflows: ["Revisión diaria (tiendas en Actions)"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main  # en workflow_run, tomar los datos recién subidos
+      - uses: astral-sh/setup-uv@v6
+      - name: Instalar dependencias
+        run: uv sync --frozen
+      - name: Generar sitio
+        run: uv run rastreador build-site --out site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

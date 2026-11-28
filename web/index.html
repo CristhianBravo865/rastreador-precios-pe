@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rastreador de precios</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <!-- Única dependencia externa; solo la usa js/charts.js. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#/">Rastreador de precios</a>
+    <span class="muted" id="generated-at"></span>
+  </header>
+  <main id="app" aria-live="polite">
+    <p class="muted">Cargando…</p>
+  </main>
+  <footer class="site-footer muted">
+    Datos públicos de las tiendas, revisados una vez al día.
+    <a href="https://github.com/CristhianBravo865/rastreador-precios-pe">Código y límites del proyecto</a>
+  </footer>
+</body>
+</html>

@@ -98,6 +98,18 @@ def test_sku_reused_for_another_variant_is_flagged(env):
     assert any("capacidades distintas" in i for i in record.identity_issues)
 
 
+def test_records_with_null_fields_round_trip(env):
+    # Falabella no informa vendedor propio ni stock: esos campos se guardan
+    # omitidos (exclude_none) y deben volver a leerse como None.
+    def fetcher(store, url):
+        o = obs("falabella", "F1", "POCO X8 Pro Negro 12GB + 512GB", "1799")
+        return [o.model_copy(update={"sold_by_store": None, "stock": None})]
+
+    run(runner=Runner.LOCAL, fetcher=fetcher, **env)
+    [record] = read_records(env["data_dir"])
+    assert record.sold_by_store is None and record.stock is None
+
+
 def test_runs_append_history(env):
     def fetcher(store, url):
         return [obs("oechsle", "O1", "POCO X8 Pro Negro 12GB RAM 512GB", "1700")]

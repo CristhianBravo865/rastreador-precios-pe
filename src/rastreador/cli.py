@@ -3,6 +3,7 @@
     rastreador add <url>     agrega un producto a vigilar a partir de su URL
     rastreador list          muestra los productos vigilados
     rastreador run           revisa precios y los agrega al historial
+    rastreador build-site    genera el dashboard estático en site/
 
 `add` es interactivo si la terminal lo permite. Todas sus preguntas tienen una
 opción equivalente (--sku, --product, --new, --name, --yes) para usarlo desde
@@ -239,6 +240,10 @@ def main(argv: list[str] | None = None) -> int:
                        help="solo las tiendas asignadas a este runner en config/stores.yaml")
     p_run.add_argument("--store", action="append", dest="stores", help="solo esta tienda (repetible)")
 
+    p_site = sub.add_parser("build-site", help="generar el dashboard estático en site/")
+    p_site.add_argument("--out", type=Path, default=Path("site"))
+    p_site.add_argument("--data-dir", type=Path, default=Path("data"))
+
     args = parser.parse_args(argv)
     try:
         if args.command == "add":
@@ -262,6 +267,11 @@ def main(argv: list[str] | None = None) -> int:
             report = summary_markdown(results)
             print(report)
             write_github_summary(report)
+        elif args.command == "build-site":
+            from rastreador.site.build import build_site
+
+            counts = build_site(out=args.out, data_dir=args.data_dir, config_path=args.config)
+            print(f"Sitio generado en {args.out}: {counts['products']} productos, {counts['stores']} tiendas")
         else:
             list_products(args.config)
     except (UsageError, AdapterError, ValueError) as exc:

@@ -28,6 +28,7 @@ class Observation(BaseModel):
     seller_id: str
     seller_name: str
     sold_by_store: bool | None = Field(
+        default=None,
         description="True si vende la propia tienda, False si es un tercero "
         "(marketplace), None si la tienda no permite saberlo."
     )

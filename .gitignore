@@ -21,3 +21,8 @@ build/
 .idea/
 Thumbs.db
 desktop.ini
+
+# Dashboard generado (rastreador build-site)
+/site/
+/demo-data/
+.claude/
